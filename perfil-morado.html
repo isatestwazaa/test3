@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tu Nombre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #110b15;
+  --edge: #5b4772;
+  --shadow: #280637;
+  --lilac: #b49bc9;
+  --lilac-soft: #a18aad;
+  --chip: #8169a5;
+  --serif: 'DM Serif Text', Georgia, serif;
+  --card: linear-gradient(135deg, rgba(29,16,39,.99), rgba(15,9,21,.99));
+  --fade: linear-gradient(to right, #000 0%, #000 80%, transparent 100%), linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { overflow-x: clip; }
+body {
+  margin: 0; min-height: 100vh; color: var(--lilac-soft); font-family: var(--serif);
+  background: radial-gradient(circle at 50% 30%, #28162f 0%, #110b15 45%, #080609 100%) fixed;
+}
+a { color: #c49ada; } a:hover { color: #975db6; }
+*::-webkit-scrollbar { height: 6px; width: 6px; }
+*::-webkit-scrollbar-thumb { background: rgba(255,255,255,.18); border-radius: 999px; }
+
+.profile { max-width: 1400px; margin: 0 auto; padding: 130px 20px 40px; }
+
+/* ---------- Banner ---------- */
+.hero { position: relative; }
+.banner {
+  position: relative; height: 550px; overflow: hidden; border: 2px solid var(--ink); border-radius: 35px;
+  background: linear-gradient(135deg, #482763, #382744);
+}
+.banner-bg {
+  position: absolute; inset: 0; width: 100%; height: 100%; padding: 5px; border-radius: 35px;
+  object-fit: cover; filter: brightness(.85) saturate(.5) contrast(.99);
+}
+.banner-doll {
+  position: absolute; left: 0; bottom: 0; height: 520px; width: auto; object-fit: contain; z-index: 5;
+  -webkit-mask-image: var(--fade); -webkit-mask-composite: source-in;
+          mask-image: var(--fade);         mask-composite: intersect;
+}
+.pfp {
+  position: absolute; right: 5%; bottom: -50px; height: 650px; width: auto; z-index: 20; pointer-events: none;
+  -webkit-mask-image: var(--fade); -webkit-mask-composite: source-in;
+          mask-image: var(--fade);         mask-composite: intersect;
+  filter: drop-shadow(5px 8px 0 #3e3150) drop-shadow(-4px 3px 0 #280637);
+}
+
+/* ---------- Nombre, enlaces y estado ---------- */
+.below { position: relative; z-index: 25; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-top: -50px; }
+.status-box {
+  width: min(660px, 100%); padding: 25px; border: 2px solid var(--edge); border-radius: 35px;
+  background: linear-gradient(135deg, rgba(48,31,61,.98), rgba(22,13,29,.98));
+  box-shadow: 6px 6px 0 var(--shadow), 0 12px 25px rgba(0,0,0,.35);
+}
+.status-title { margin-bottom: 10px; font-size: 15px; font-weight: 900; letter-spacing: 5px; color: #bda6cc; text-shadow: 2px 2px 0 var(--ink); }
+.status-text { max-height: 90px; overflow: auto; font-size: 14px; line-height: 1.75; color: #c4afd0; }
+
+.identity { flex: 1; min-width: 0; text-align: center; padding-top: 70px; }
+.profile-name {
+  display: inline-block; white-space: nowrap; margin: 0;
+  font-size: clamp(3rem, 6vw, 5rem); font-weight: 800; letter-spacing: -.5px; line-height: 1.1;
+  background: linear-gradient(to bottom, #bda1d2 0%, #8d6aad 55%, #5b3d75 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(5px 3px 0 #280637) drop-shadow(0 0 8px rgba(141,106,173,.25));
+}
+.profile-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+.profile-links a {
+  padding: 1px 20px; border: 1px solid #53436b; border-radius: 999px; text-decoration: none;
+  background: linear-gradient(135deg, #281a32, var(--ink)); color: #a98bc9; font-size: 14px; font-weight: 700; transition: .25s ease;
+}
+.profile-links a:hover { background: #53436b; color: #eee5f5; box-shadow: 0 0 12px rgba(129,105,165,.35); transform: translateY(-2px); }
+
+/* ---------- Cajas de información ---------- */
+.info-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 30px; }
+.left-column, .right-column { min-width: 0; display: flex; flex-direction: column; gap: 22px; }
+.info-box {
+  min-height: 245px; padding: 28px 32px; overflow: hidden; border: 2px solid var(--edge); border-radius: 35px;
+  background: linear-gradient(135deg, rgba(29,16,39,.99), rgba(15,9,21,.99));
+  box-shadow: 7px 7px 0 var(--shadow), 0 10px 30px rgba(0,0,0,.4);
+}
+.info-label, .creators-header span {
+  display: inline-block; margin-bottom: 14px; padding: 6px 14px; border-radius: 999px;
+  background: var(--chip); color: #170d20; font: 900 11px Arial, sans-serif; letter-spacing: 2px;
+}
+.info-title { margin-bottom: 8px; font-size: 42px; font-weight: 700; line-height: 1.1; color: var(--lilac); text-shadow: 2px 2px 0 var(--ink); }
+.info-text { max-height: 140px; overflow: auto; font-size: 15px; line-height: 1.6; }
+.info-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.info-tags span { padding: 7px 13px; border: 1px solid #53436b; border-radius: 999px; background: rgba(129,105,165,.12); color: #a98bc9; font-size: 11px; }
+
+.about-dropdowns { display: flex; flex-direction: column; gap: 12px; }
+.about-dropdowns details {
+  overflow: hidden; border: 1px solid var(--edge); border-radius: 25px;
+  background: linear-gradient(135deg, rgba(38,23,49,.92), rgba(15,9,20,.96)); box-shadow: 4px 4px 0 var(--shadow);
+}
+.about-dropdowns summary { padding: 16px 20px; cursor: pointer; list-style: none; color: var(--lilac); font-size: 15px; font-weight: 700; letter-spacing: 2px; }
+.about-dropdowns summary::-webkit-details-marker { display: none; }
+.about-dropdowns summary:focus-visible { outline: 2px solid #c49ada; outline-offset: -4px; border-radius: 25px; }
+.dropdown-content { padding: 15px 20px 18px; border-top: 1px solid rgba(91,71,114,.45); background: rgba(129,105,165,.035); font-size: 14px; line-height: 1.7; }
+
+/* ---------- Creadores ---------- */
+.creators-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.creators-header span { margin: 0; font-size: 8px; padding: 6px 12px; }
+.creators-header strong { font-size: 28px; color: var(--lilac); font-weight: 400; }
+.creators-grid { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; }
+.creator { flex: 0 0 auto; text-decoration: none; }
+.creator img {
+  display: block; width: 120px; height: 150px; object-fit: cover; border: 1px solid #53436b; border-radius: 25px;
+  filter: brightness(.85) saturate(.5) contrast(.99); transition: .3s ease;
+}
+.creator:hover img { filter: none; transform: translateY(-3px); }
+.creator span { display: block; position: relative; top: -20px; text-align: center; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--lilac); text-shadow: 2px 2px 0 var(--ink); }
+
+footer { text-align: center; padding: 1rem 0 2rem; font-size: 11px; color: #c7abde; opacity: .4; letter-spacing: .5px; }
+footer a { color: inherit; text-decoration: none; }
+
+/* ---------- Móvil ---------- */
+@media (max-width: 900px) {
+  .profile { padding: 20px 14px 30px; }
+  .banner { height: 280px; border-radius: 20px; }
+  .banner-bg { border-radius: 20px; padding: 3px; }
+  .banner-doll { display: none; }
+  .pfp { right: auto; left: 50%; transform: translateX(-50%); height: 420px; bottom: -150px; }
+  .below { flex-direction: column-reverse; margin-top: 170px; gap: 20px; }
+  .identity { padding-top: 0; width: 100%; }
+  .profile-name { font-size: clamp(2.6rem, 14vw, 4.2rem); }
+  .status-box { width: 100%; padding: 20px; border-radius: 25px; }
+  .info-layout { grid-template-columns: minmax(0,1fr); gap: 20px; }
+  .left-column, .right-column { display: contents; }
+  .left-column .info-box { order: 1; }
+  .right-column .info-box { order: 2; }
+  .about-dropdowns { order: 3; }
+  .creators-section { order: 4; min-width: 0; }
+  .info-box { padding: 22px; border-radius: 25px; box-shadow: 5px 5px 0 var(--shadow), 0 8px 20px rgba(0,0,0,.35); }
+  .info-title { font-size: clamp(32px, 9vw, 42px); }
+  .info-text { font-size: 14px; }
+  .about-dropdowns summary { font-size: 13px; letter-spacing: 1.5px; padding: 15px 17px; }
+  .creator, .creator img { width: 130px; }
+  .creator img { height: 160px; border-radius: 20px; }
+}
+</style>
+</head>
+<body>
+<div class="profile">
+
+  <!-- BANNER: cambia estas tres imágenes por las tuyas (PNG con fondo transparente para doll y pfp) -->
+  <header class="hero">
+    <div class="banner">
+      <img class="banner-bg" src="https://picsum.photos/seed/banner/1400/550" alt="">
+      <img class="banner-doll" src="https://picsum.photos/seed/doll/360/520" alt="">
+    </div>
+    <img class="pfp" src="https://picsum.photos/seed/pfp/480/650" alt="">
+  </header>
+
+  <!-- ESTADO + NOMBRE + ENLACES -->
+  <div class="below">
+    <div class="status-box">
+      <div class="status-title">STATUS -</div>
+      <div class="status-text">Escribe aquí tu estado. ¡Puede ser tan largo o corto como quieras!</div>
+    </div>
+    <div class="identity">
+      <h1 class="profile-name">Tu Nombre</h1>
+      <nav class="profile-links">
+        <a href="#">Discord</a>
+        <a href="#">Ko-fi</a>
+        <a href="#">Carrd</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="info-layout">
+    <div class="left-column">
+      <section class="info-box">
+        <div class="info-label">01 / SOBRE MÍ</div>
+        <div class="info-title">SOBRE MÍ</div>
+        <div class="info-text">Tu contenido va aquí. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+        <div class="info-tags"><span>TAG</span><span>TAG</span><span>TAG</span><span>TAG</span><span>TAG</span></div>
+      </section>
+
+      <div class="about-dropdowns">
+        <details><summary>01 / DESPLEGABLE</summary><div class="dropdown-content">Tu contenido va aquí.</div></details>
+        <details><summary>02 / DESPLEGABLE</summary><div class="dropdown-content">Tu contenido va aquí.</div></details>
+        <details><summary>03 / DESPLEGABLE</summary><div class="dropdown-content">Tu contenido va aquí.</div></details>
+      </div>
+    </div>
+
+    <div class="right-column">
+      <section class="info-box">
+        <div class="info-label">02 / F.A.Q</div>
+        <div class="info-title">EXTRA</div>
+        <div class="info-text">Tu contenido va aquí. Preguntas frecuentes, reglas o lo que quieras.</div>
+        <div class="info-tags"><span>TAG</span><span>TAG</span><span>TAG</span></div>
+      </section>
+
+      <section class="creators-section">
+        <div class="creators-header"><span>03 / PEOPLE</span><strong>CREATORS</strong></div>
+        <div class="creators-grid">
+          <a href="#" class="creator"><img src="https://picsum.photos/seed/c1/240/300" alt=""><span>Nombre</span></a>
+          <a href="#" class="creator"><img src="https://picsum.photos/seed/c2/240/300" alt=""><span>Nombre</span></a>
+          <a href="#" class="creator"><img src="https://picsum.photos/seed/c3/240/300" alt=""><span>Nombre</span></a>
+          <a href="#" class="creator"><img src="https://picsum.photos/seed/c4/240/300" alt=""><span>Nombre</span></a>
+          <a href="#" class="creator"><img src="https://picsum.photos/seed/c5/240/300" alt=""><span>Nombre</span></a>
+          <a href="#" class="creator"><img src="https://picsum.photos/seed/c6/240/300" alt=""><span>Nombre</span></a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>css por <a href="https://janitorai.com/profiles/92d6986b-2666-4859-8a6e-bf084b54a0fe_profile-of-8-tv-8-tv">@8tv_8tv</a></footer>
+</div>
+</body>
+</html>
